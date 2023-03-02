@@ -1,0 +1,24 @@
+using UnityEngine;
+
+public class Oscillator : MonoBehaviour
+{
+    private Vector3 _startingPosition;
+    [SerializeField] Vector3 movementVector;
+    float _movementFactor;
+    [SerializeField] float period = 2f;
+    void Start()
+    {
+        _startingPosition = transform.position;
+    }
+    void Update()
+    {
+        float cycles = Time.time / period; //growing over time 
+        const float tau = Mathf.PI * 2; //constant value 6.283
+        float rawSinWave = Mathf.Sin(cycles * tau); // from -1 to 1
+
+        _movementFactor = (rawSinWave + 1f) / 2f; // recalculated from 0 to 1 
+        
+        Vector3 offset = movementVector * _movementFactor;
+        transform.position = _startingPosition + offset;
+    }
+}
